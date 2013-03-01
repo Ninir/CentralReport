@@ -61,7 +61,7 @@ function printLightBox() {
 function logError() {
     logConsole " "
     echo -e "\033[0;31m$*\033[0m" >&2
-    logFile "$*"
+    logFile "ERROR: $*"
 }
 
 # Writes a message in the system log (typically in /var/log/system.log)
