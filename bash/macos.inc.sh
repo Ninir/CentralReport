@@ -92,9 +92,7 @@ function macos_launch_config_assistant {
 
     logFile "Launching CentralReport configuration wizard..."
 
-    printLightBox blue " "
-    printLightBox blue " Launching CentralReport configuration wizard..."
-    printLightBox blue " "
+    printBox blue "Launching CentralReport configuration wizard..."
 
     sudo python ${CONFIG_ASSISTANT} < /dev/tty
 
