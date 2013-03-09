@@ -169,10 +169,10 @@ if '__main__' == __name__:
             else:
                 print 'CentralReport is running with pid %s' % pid
         else:
-            log.log_error("usage: %s start|stop|restart|status" % sys.argv[0])
+            print 'usage: %s start|stop|restart|status' % sys.argv[0]
             sys.exit(2)
         sys.exit(0)
 
     else:
-        log.log_error("usage: %s start|stop|restart|status" % sys.argv[0])
+        print 'usage: %s start|stop|restart|status' % sys.argv[0]
         sys.exit(2)

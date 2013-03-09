@@ -11,13 +11,28 @@
 # It can be added to the PATH.
 
 if [ "Darwin" == $(uname -s) ]; then
-#    sudo su _centralreport -c '/usr/local/lib/centralreport/centralreportd $*'
-    sudo -u _centralreport /usr/local/lib/centralreport/centralreport.py $*
+    # Mac OS X
 
-#    sudo /usr/local/lib/centralreport/centralreportd $*
+    # If the _centralreport system user doesn't exist, we can't launch CentralReport agent.
+    USER_UNIQUE_ID=$(dscl . -list /Users UniqueID | grep _centralreport | awk '{print $2}')
+    if [ -z ${USER_UNIQUE_ID} ]; then
+        echo "Error: The _centralreport system user doesn't exist."
+        echo "For security reasons, CentralReport can't be launched."
+    else
+        sudo -u _centralreport /usr/local/lib/centralreport/centralreport.py $*
+    fi
 
 elif [ -f "/etc/debian_version" ] || [ -f "/etc/lsb-release" ]; then
-    su centralreport -c "/usr/local/lib/centralreport/centralreport.py $*"
+    # Debian or Ubuntu
+
+    # If the _centralreport system user doesn't exist, we can't launch CentralReport agent.
+    CR_USER_FOUND=$(cat /etc/passwd | grep 'centralreport')
+    if [ -z ${CR_USER_FOUND} ]; then
+        echo "Error: The _centralreport system user doesn't exist."
+        echo "For security reasons, CentralReport can't be launched."
+    else
+        su centralreport -c "/usr/local/lib/centralreport/centralreport.py $*"
+    fi
 
 else
     echo "Sorry, your operating system isn't supported yet by CentralReport!"

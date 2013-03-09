@@ -294,10 +294,10 @@ function macos_remove_pid_directory {
 function macos_copy_bin {
     # In some cases, /usr/local and /usr/local/bin doesn't exist. We will creating them in this case.
     if [ ! -d "/usr/local" ]; then
-         mkdir /usr/local
+         sudo mkdir /usr/local
     fi
     if [ ! -d "/usr/local/bin" ]; then
-         mkdir /usr/local/bin
+         sudo mkdir /usr/local/bin
     fi
 
 
@@ -332,10 +332,10 @@ function macos_copy_lib {
 
     # In some cases, /usr/local and /usr/local/bin doesn't exist. We will creating them in this case.
     if [ ! -d "/usr/local" ]; then
-         mkdir /usr/local
+         sudo mkdir /usr/local
     fi
     if [ ! -d "/usr/local/lib" ]; then
-         mkdir /usr/local/lib
+         sudo mkdir /usr/local/lib
     fi
 
     sudo mkdir ${CR_LIB_DIR}

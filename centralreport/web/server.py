@@ -14,10 +14,10 @@ import threading
 
 # By che: Temporary section. Will be improved soon.
 # Testing importing zip libraries...
-sys.path.insert(0, 'libs/jinja2-2.6.zip')
-sys.path.insert(0, 'libs/cherrypy-3.2.2.zip')
-sys.path.insert(0, 'libs/repoze-lru-0.6.zip')
-sys.path.insert(0, 'libs/routes-1.13.zip')
+sys.path.insert(0, os.path.abspath(__file__ + '/../../libs/jinja2-2.6.zip'))
+sys.path.insert(0, os.path.abspath(__file__ + '/../../libs/cherrypy-3.2.2.zip'))
+sys.path.insert(0, os.path.abspath(__file__ + '/../../libs/repoze-lru-0.6.zip'))
+sys.path.insert(0, os.path.abspath(__file__ + '/../../libs/routes-1.13.zip'))
 
 import cherrypy
 import jinja2
