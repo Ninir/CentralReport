@@ -11,7 +11,7 @@ import shlex
 import subprocess
 
 
-def executeCommand(str_command):
+def execute_command(str_command):
     """
         This function executes an os command. str_command can contain pipes, executed as subcommands.
         If your command contains vars with a space, use " " to escape words (eg: "Volume Name")
@@ -31,12 +31,9 @@ def executeCommand(str_command):
 
         # If it's not the first occurence, stdin is the last command executed.
         if 0 == i:
-            list_results.append(subprocess
-                                .Popen(list_command, stdout=subprocess.PIPE))
+            list_results.append(subprocess.Popen(list_command, stdout=subprocess.PIPE))
         else:
-            list_results.append(subprocess
-                                .Popen(list_command, stdout=subprocess.PIPE, stdin=list_results[i - 1]
-                                .stdout))
+            list_results.append(subprocess.Popen(list_command, stdout=subprocess.PIPE, stdin=list_results[i - 1].stdout))
             # Ends the previous subprocess (http://docs.python.org/2/library/subprocess.html#replacing-shell-pipeline)
             list_results[len(list_results) - 2].stdout.close()
 
