@@ -17,7 +17,7 @@ source ../bash/functions.inc.sh
 #=============================================================================
 # List of libraries to install
 # Can be updated as your needs
-declare -a LISTE='([0]="CherryPy" [1]="Jinja2" [2]="Routes")'
+declare -a LISTE='([0]="CherryPy" [1]="Jinja2" [2]="Routes" [3]="Requests")'
 #=============================================================================
 clear
 

@@ -14,7 +14,6 @@ import cr.log as crLog
 
 
 class Speaker:
-
     """
         PS: This class is not used for the moment.
         It has been created for testing purpose only.

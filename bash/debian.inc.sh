@@ -297,6 +297,13 @@ function debian_install {
         return ${RETURN_CODE}
     fi
 
+    # Requests (HTTP for Humans)
+    displayAndExec "Installing Requests..." easy_install requests
+    RETURN_CODE="$?"
+    if [ ${RETURN_CODE} -ne 0 ]; then
+        return ${RETURN_CODE}
+    fi
+
     # Cleaning screen
     clear
 
