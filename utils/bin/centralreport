@@ -166,7 +166,10 @@ case $1 in
             echo "CentralReport is running with PID $(verify_pid_file)"
         fi
     ;;
-
+    debug)
+        # Launchs CentralReport in debug mode = in the current console
+        python /usr/local/lib/centralreport/test.py
+    ;;
     start | stop | restart)
         # For all others options, we ask to the centralreport.py to answer.
         if [ $(uname -s) == "Darwin" ]; then
@@ -207,7 +210,7 @@ case $1 in
     ;;
 
     *)
-        echo "Usage: $0 {start|stop|restart|status}"
+        echo "Usage: $0 {start|stop|restart|status|debug}"
     ;;
 esac
 
