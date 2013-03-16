@@ -10,6 +10,7 @@
 
 import datetime
 import getpass
+import signal
 import sys
 import time
 import os
@@ -29,6 +30,19 @@ class CentralReport(Daemon):
     checks_thread = None
     webserver_thread = None
 
+    # Sigterm signal
+    SIGTERM_SENT = False
+
+    def sigterm_handler(self, signum, frame):
+        log.log_info('SIGTERM handler.  Shutting Down.')
+
+        if not self.SIGTERM_SENT:
+            self.SIGTERM_SENT = True
+            log.log_info('Shutting down sub-processes')
+            os.killpg(0, signal.SIGTERM)
+
+        self.stop()
+
     def run(self):
         """
             Constructor.
@@ -39,6 +53,9 @@ class CentralReport(Daemon):
         log.log_info('CentralReport is starting...')
 
         log.log_info('Current user: ' + getpass.getuser())
+
+        os.setsid()
+        signal.signal(signal.SIGTERM, self.sigterm_handler)
 
         CentralReport.starting_date = datetime.datetime.now()  # Starting date
         CentralReport.configuration = Config()  # Getting config object
@@ -103,16 +120,16 @@ class CentralReport(Daemon):
 
         log.log_info('Stopping daemon...')
 
-        try:
-            Daemon.stop(self)
-        except:
-            log.log_info('PID file not found.')
+        # try:
+        #     Daemon.stop(self)
+        # except:
+        #     log.log_info('PID file not found.')
 
         # In test mode, we only return 0 (exit can be personalized by others scripts)
         # But in production, we kill immediately the process.
 
-        if not Config.CR_CONFIG_ENABLE_DEBUG_MODE:
-            os.system('kill %d' % os.getpid())
+        # if not Config.CR_CONFIG_ENABLE_DEBUG_MODE:
+        #     os.system('kill %d' % os.getpid())
 
         return 0
 
@@ -141,7 +158,6 @@ class CentralReport(Daemon):
         log.debug_mode_enabled = True
 
         self.run()
-
 
 #
 # Main script
