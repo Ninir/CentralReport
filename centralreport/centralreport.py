@@ -34,14 +34,18 @@ class CentralReport(Daemon):
     SIGTERM_SENT = False
 
     def sigterm_handler(self, signum, frame):
-        log.log_info('SIGTERM handler.  Shutting Down.')
-
+        """
+            Receives the "SIGTERM" signal from the OS.
+            In this case, we must CentralReport immediately.
+        """
         if not self.SIGTERM_SENT:
-            self.SIGTERM_SENT = True
-            log.log_info('Shutting down sub-processes')
+            self.SIGTERM_SENT = True  # Prevents if SIGTERM is received twice.
+
+            log.log_info('SIGTERM signal received. Shutting Down...')
+            log.log_info('Shutting down sub-processes...')
             os.killpg(0, signal.SIGTERM)
 
-        self.stop()
+            self.stop()
 
     def run(self):
         """
@@ -51,9 +55,9 @@ class CentralReport(Daemon):
         is_error = False  # If True, there are one or more errors when CentralReport is trying to start
 
         log.log_info('CentralReport is starting...')
-
         log.log_info('Current user: ' + getpass.getuser())
 
+        # Registring SIGTERM signal event
         os.setsid()
         signal.signal(signal.SIGTERM, self.sigterm_handler)
 
@@ -120,16 +124,11 @@ class CentralReport(Daemon):
 
         log.log_info('Stopping daemon...')
 
-        # try:
-        #     Daemon.stop(self)
-        # except:
-        #     log.log_info('PID file not found.')
-
         # In test mode, we only return 0 (exit can be personalized by others scripts)
         # But in production, we kill immediately the process.
 
-        # if not Config.CR_CONFIG_ENABLE_DEBUG_MODE:
-        #     os.system('kill %d' % os.getpid())
+        if not Config.CR_CONFIG_ENABLE_DEBUG_MODE:
+            os.system('kill -9 %d' % os.getpid())
 
         return 0
 
@@ -173,21 +172,11 @@ if '__main__' == __name__:
         elif 'stop' == sys.argv[1]:
             daemon.stop()
 
-        elif 'restart' == sys.argv[1]:
-            daemon.restart()
-
-        elif 'status' == sys.argv[1]:
-            pid = daemon.status()
-
-            if 0 == pid:
-                print 'CentralReport is not running'
-            else:
-                print 'CentralReport is running with pid %s' % pid
         else:
-            print 'usage: %s start|stop|restart|status' % sys.argv[0]
+            print 'usage: %s start|stop' % sys.argv[0]
             sys.exit(2)
         sys.exit(0)
 
     else:
-        print 'usage: %s start|stop|restart|status' % sys.argv[0]
+        print 'usage: %s start|stop|' % sys.argv[0]
         sys.exit(2)
