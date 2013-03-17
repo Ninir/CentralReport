@@ -10,8 +10,10 @@
 # Importing scripts...
 source bash/vars.inc.sh
 source bash/log.inc.sh
+source bash/utils.inc.sh
 source bash/functions.inc.sh
 
+# che: Will be removed soon!
 source bash/debian.inc.sh
 source bash/macos.inc.sh
 
