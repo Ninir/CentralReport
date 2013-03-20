@@ -13,6 +13,8 @@ Right now, CentralReport monitors:
 
 **It's developed by three students: @Guimove, @Ninir and @miniche. It's only the beginning: we have many ideas for CentralReport and others exciting and related projets.**
 
+COUCOU CHE
+
 ****
 
 ## The idea
